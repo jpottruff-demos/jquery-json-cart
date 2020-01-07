@@ -1,0 +1,35 @@
+{
+    "products": [
+      {
+        "id": "p101",
+        "cost": "51.99",
+        "image":"https://source.unsplash.com/random/60x60?sig=111",
+        "quantity" : 10
+      },
+      {
+        "id": "p102",
+        "cost": "52.99",
+        "image":"https://source.unsplash.com/random/60x60?sig=222",
+        "quantity" : 10
+      },
+      {
+        "id": "p103",
+        "cost": "53.99",
+        "image":"https://source.unsplash.com/random/60x60?sig=333",
+        "quantity" : 10
+      },
+      {
+        "id": "p104",
+        "cost": "54.99",
+        "image":"https://source.unsplash.com/random/60x60?sig=444",
+        "quantity" : 10
+      },
+      {
+        "id": "p105",
+        "cost": "55.99",
+        "image":"https://source.unsplash.com/random/60x60?sig=555",
+        "quantity" : 10
+      }
+    ]
+  
+}

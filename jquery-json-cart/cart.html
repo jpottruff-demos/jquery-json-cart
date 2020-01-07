@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<meta charset="UTF-8">
+<head>
+	<title>JS OOPS</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<style type="text/css">
+		body, button {
+			font-size: 16px;
+			font-family: sans-serif;
+		}
+
+		h2, h5, button {
+			font-family: 'Permanent Marker', sans-serif;
+		}
+
+		p{
+			padding: 20px;
+			font-size: 20px;
+			line-height: 24px;
+			font-family: sans-serif;
+		}
+
+		button {
+			padding: 3px 10px;
+			cursor: pointer;
+			margin: 10px;
+		}
+
+		.wrapper {
+			max-width: 800px;
+			text-align: center;
+			margin: auto;
+		}
+		
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		
+		<div class="info" style="border:1px solid black;">
+			<h2> Product List </h2>
+			<a href="#cart"><h5><i class="fa fa-shopping-cart"></i> View Cart</h5></a>
+			<p id="demo"></p>
+		</div>
+		<div class="info" id="cart" style="border:1px solid black;">
+			<h2><i class="fa fa-shopping-cart"></i> Shopping Cart</h2>
+			<p id="demo2" ></p>
+		</div>
+		<script type="text/javascript">
+
+			function Product(id, price, imageURL, quantity){
+					this.id = id;
+					this.price = price;
+					this.imageURL = imageURL;
+					this.quantity = quantity
+					this.printProduct = function(){
+						return "<img src='" + this.imageURL + "' />" + " Id: " + this.id + ", priced: $" + this.price + ", quantity: " + this.quantity;
+					}
+			}			
+
+			let productList = new Array();
+			
+
+			function addToArrays(myJson){
+				//code for building and printing products list
+				for(i in myJson.products){
+					let current = myJson.products[i];
+					let p = new Product(current.id, current.cost, current.image, current.quantity);
+
+					//Print it on the screen and add it to the list;
+					productList.push(p);
+					$('#demo').append("<span id='" + p.id + "'>" + p.printProduct() + "</span><button onClick =\"cart.addCartItem('"+ current.id +"');\">Add</button><br/>" + "<br>");
+				}
+			}
+
+
+
+			function CartItem(product,quantity){
+				this.product = new Product(product.id, product.price, product.imageURL, product.quantity);
+				this.quantity = quantity;
+			}
+
+
+			function ShoppingCart() {
+				this.cartItems = new Array();
+
+				this.addCartItem = function(product_id){
+					let outOfStock = false;
+					let productToAdd;
+					let inCart = false;
+
+
+					//find the product, create it, update page
+					productList.forEach(function(product) {
+						if (product.id == product_id){
+							if (product.quantity == 0){
+								alert("Item unavailable, cannot add to cart.");
+								outOfStock = true;
+							} else {
+								productToAdd = new Product(product.id, product.price, product.imageURL, product.quantity);
+								product.quantity -= 1;
+								document.getElementById(product_id).innerHTML = product.printProduct();
+							}
+
+						}
+					});
+
+					//if its not in stock, no need to continue
+					if (!outOfStock) {
+						//check to see if in cart - if it is increase the quantity update the list (no need to create new object)
+						this.cartItems.forEach(function(cartItem){
+							if (cartItem.product.id === product_id) {
+								inCart = true;
+								cartItem.quantity += 1;
+							}
+						});
+
+						if(!inCart){
+							let itemToAdd = new CartItem(productToAdd, 1);
+							this.cartItems.push(itemToAdd);
+						}
+					}	
+				}; //end add cart item
+
+				
+
+				this.showCartItems = function(){
+					//for displaying total of cart
+					let total = 0;
+					document.getElementById("demo2").innerHTML = "";
+					this.cartItems.forEach(function(cartItem){
+						total += Number(cartItem.product.price) * Number(cartItem.quantity);
+						document.getElementById("demo2").innerHTML += "ID: " + cartItem.product.id + " Price: $" + cartItem.product.price + " Qty: " + cartItem.quantity + "<br />";
+					});
+
+					document.getElementById("demo2").innerHTML += "TOTAL: $" + total;
+				}
+
+			}
+
+			let cart = new ShoppingCart();
+
+
+
+		    //getJSON and send to addToArrays
+			$(document).ready(function (){
+				$.getJSON("products.json", addToArrays);
+			});
+
+		</script>
+
+		<button onclick="cart.showCartItems();">Show Products</button>
+	</div>
+</body>
+
+
+

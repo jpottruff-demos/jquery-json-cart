@@ -1,0 +1,53 @@
+html, body {
+	margin: 0;
+	height: 100%
+}
+
+html {
+	/*background-image: linear-gradient(#fd746c, #ff9068);*/
+	background-image: linear-gradient(#8A2387, #E94057, #F27121);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+img {
+	height: 60px;
+	width: 60px;
+}
+.info {
+	background-color: white;
+	border-radius: 10px;
+
+	background-color: #272822;
+	color: #66D9EF;
+}
+
+#cart {
+	margin-top: 1em;
+}
+
+#cart > p {
+	line-height: 1.6em;
+}
+
+h2 {
+	color: #A6E22E;
+	font: monospace;
+}
+
+a {
+	text-decoration: none;
+	color: #F92672;
+}
+
+button {
+	border: 1px solid #FD971F;
+	border-radius: 20px;
+	background-color: #F92672;
+	color:  #272822;
+	font-weight: bold;
+}
+
+
+
+
